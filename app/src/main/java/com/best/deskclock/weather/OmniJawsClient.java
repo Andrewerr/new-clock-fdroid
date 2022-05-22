@@ -44,7 +44,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 public class OmniJawsClient {
-    private static final String TAG = "SystemUI:OmniJawsClient";
+    private static final String TAG = "OmniJawsClient";
     private static final boolean DEBUG = false;
     public static final String SERVICE_PACKAGE = "org.omnirom.omnijaws";
     public static final Uri WEATHER_URI
@@ -397,8 +397,10 @@ public class OmniJawsClient {
 
     public boolean isOmniJawsEnabled() {
         if (!isOmniJawsServiceInstalled()) {
+            Log.e(TAG, "OmniJaws is not installed.");
             return false;
         }
+        if(DEBUG) Log.d(TAG, "OmniJaws is installed");
         final Cursor c = mContext.getContentResolver().query(SETTINGS_URI, SETTINGS_PROJECTION,
                 null, null, null);
         if (c != null) {
@@ -443,8 +445,10 @@ public class OmniJawsClient {
 
     private void updateUnits() {
         if (!isOmniJawsServiceInstalled()) {
+            Log.e(TAG, "OmniJaws is not installed!");
             return;
         }
+        if(DEBUG) Log.d(TAG, "OmniJaws is installed.");
         final Cursor c = mContext.getContentResolver().query(SETTINGS_URI, SETTINGS_PROJECTION,
                 null, null, null);
         if (c != null) {
@@ -502,6 +506,7 @@ public class OmniJawsClient {
                 try {
                     mContext.unregisterReceiver(mReceiver);
                 } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             mReceiver = new WeatherUpdateReceiver();
@@ -519,6 +524,7 @@ public class OmniJawsClient {
             try {
                 mContext.unregisterReceiver(mReceiver);
             } catch (Exception e) {
+                e.printStackTrace();
             }
             mReceiver = null;
         }

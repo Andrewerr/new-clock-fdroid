@@ -3,14 +3,14 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.best.deskclock"
-        minSdkVersion 19
-        targetSdkVersion 25
-        versionCode 3
-        versionName "1.2"
+        minSdkVersion 30
+        targetSdkVersion 31
+        versionCode 12
+        versionName "12"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -20,10 +20,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
-    lintOptions {
+    lint {
         abortOnError false
     }
+    namespace 'com.best.deskclock'
+
 }
 
 
