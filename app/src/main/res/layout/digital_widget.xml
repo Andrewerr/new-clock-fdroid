@@ -71,7 +71,6 @@
             android:singleLine="true"
             android:textAllCaps="true"
             android:textColor="@color/white" />
-
     </LinearLayout>
 
     <ListView

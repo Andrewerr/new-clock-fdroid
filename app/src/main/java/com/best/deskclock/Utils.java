@@ -39,6 +39,7 @@ import android.os.Looper;
 import android.provider.Settings;
 import androidx.annotation.AnyRes;
 import androidx.annotation.DrawableRes;
+import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 import androidx.vectordrawable.graphics.drawable.VectorDrawableCompat;
 import androidx.core.os.BuildCompat;
@@ -54,6 +55,7 @@ import android.text.style.RelativeSizeSpan;
 import android.text.style.StyleSpan;
 import android.text.style.TypefaceSpan;
 import android.util.ArraySet;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextClock;
 import android.widget.TextView;
@@ -61,6 +63,7 @@ import android.widget.TextView;
 import com.best.deskclock.data.DataModel;
 import com.best.deskclock.provider.AlarmInstance;
 import com.best.deskclock.uidata.UiDataModel;
+import com.best.deskclock.weather.CurrentWeatherView;
 
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -78,7 +81,7 @@ import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static android.graphics.Bitmap.Config.ARGB_8888;
 
 public class Utils {
-
+    private final static String TAG = "Utils";
     /**
      * {@link Uri} signifying the "silent" ringtone.
      */
@@ -334,9 +337,17 @@ public class Utils {
     /**
      * Clock views can call this to refresh their alarm to the next upcoming value.
      */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public static void refreshAlarm(Context context, View clock) {
         final TextView nextAlarmIconView = (TextView) clock.findViewById(R.id.nextAlarmIcon);
         final TextView nextAlarmView = (TextView) clock.findViewById(R.id.nextAlarm);
+        final CurrentWeatherView mWeatherView = (CurrentWeatherView) clock.findViewById(R.id.weather_container);
+        Log.d(TAG, "Enabling weather updates.");
+        if(mWeatherView == null){
+            Log.wtf(TAG, "Can not find weather container by id");
+            return ;
+        }
+        mWeatherView.enableUpdates();
         if (nextAlarmView == null) {
             return;
         }

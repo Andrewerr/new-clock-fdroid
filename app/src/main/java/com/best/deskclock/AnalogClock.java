@@ -20,11 +20,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -34,10 +39,13 @@ import java.util.TimeZone;
 
 import static android.text.format.DateUtils.SECOND_IN_MILLIS;
 
+import com.best.deskclock.weather.CurrentWeatherView;
+
 /**
  * This widget display an analog clock with two hands for hours and minutes.
  */
 public class AnalogClock extends FrameLayout {
+    private static final String TAG="AnalogClock";
 
     private final BroadcastReceiver mIntentReceiver = new BroadcastReceiver() {
         @Override
@@ -66,6 +74,7 @@ public class AnalogClock extends FrameLayout {
     private final ImageView mHourHand;
     private final ImageView mMinuteHand;
     private final ImageView mSecondHand;
+    private CurrentWeatherView mWeatherView;
 
     private Calendar mTime;
     private String mDescFormat;
@@ -80,6 +89,7 @@ public class AnalogClock extends FrameLayout {
         this(context, attrs, 0 /* defStyleAttr */);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public AnalogClock(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
@@ -114,6 +124,11 @@ public class AnalogClock extends FrameLayout {
             mMinuteHand.setColorFilter(Color.WHITE);
         }
 
+    }
+
+    @Override
+    protected void onFinishInflate(){
+        super.onFinishInflate();
     }
 
     @Override
